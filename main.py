@@ -1,5 +1,18 @@
 import serial                                           # import serial library
 
+
+
+
+
+
+
+
+
+
+
+
+
+# SPACE BELOW FOR HARWARE STUFF - DO NOT TYPE ABOVE THIS LINE LOLOLOL
 arduino = serial.Serial('/dev/cu.usbserial-1410', 9600)   
 
 while True:                                             # create loop
