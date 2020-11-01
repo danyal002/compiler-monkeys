@@ -21,14 +21,18 @@ def upload():
         fileToSend, 'rb'), 'application/octet'))]
     r = requests.post(url, files=files)
 
+def lock():
+    arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
+    time.sleep(10)
+    sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
+    arduino.write(b'L')
+    time.sleep(10)
 
-# SPACE BELOW FOR HARWARE STUFF - DO NOT TYPE ABOVE THIS LINE LOLOLOL
-# arduino = serial.Serial('COM5', 9600, timeout=1)
-# time.sleep(10)
-# sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
-# arduino.write(b'L')
-# print("sentL")
-# time.sleep(10)
-# arduino.write(b'U')
+def unlock():
+    arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
+    time.sleep(10)
+    sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
+    arduino.write(b'U')
+    time.sleep(10)
 
-capture()
+
