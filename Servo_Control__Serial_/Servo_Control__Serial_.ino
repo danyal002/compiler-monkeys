@@ -33,17 +33,27 @@ int pos;
 void setup() {
  
   myservo.attach(9);
+  myservo.write(90);
   Serial.begin(9600);
 }
 
 void loop()
-{    
+{
   if(Serial.available())  // if data available in serial port
     { 
-    inByte = Serial.read(); // read data until newline
-    pos = inByte.toInt();   // change datatype from string to integer        
-    myservo.write(pos);     // move servo
-    Serial.print("Servo in position: ");  
-    Serial.println(inByte);
+    inByte = Serial.readString(); // read data until newline
+    pos = inByte.toInt();   // change datatype from string to integer 
+    Serial.print(inByte);
+    if(strstr(const_cast<char*>(inByte.c_str()),"L") != NULL){
+      myservo.write(23);
+      Serial.print(inByte);
+      Serial.print("Locking\n");
+    }else if(strstr(const_cast<char*>(inByte.c_str()),"U") != NULL){
+      myservo.write(90);
+      Serial.print("Unlocking\n");
+    }
+//    myservo.write(pos);     // move servo
+//    Serial.print("Servo in position: ");  
+//    Serial.println(inByte);
     }
 }

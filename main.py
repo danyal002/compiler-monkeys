@@ -1,5 +1,6 @@
 import serial                                           # import serial library
-
+import time
+import io
 
 
 
@@ -13,11 +14,31 @@ import serial                                           # import serial library
 
 
 # SPACE BELOW FOR HARWARE STUFF - DO NOT TYPE ABOVE THIS LINE LOLOLOL
-arduino = serial.Serial('/dev/cu.usbserial-1410', 9600)   
+arduino = serial.Serial('COM5', 9600, timeout=1)
+time.sleep(10)
+sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
+arduino.write(b'L')
+print("sentL")
+# sio.write("L\n")
+# sio.flush()
+time.sleep(10)
+arduino.write(b'U')
+# sio.write("U\n")
+# sio.flush()
 
-while True:                                             # create loop
-    command = str(input ("Servo position: "))       # query servo position
-    arduino.write(bytes(command, 'utf-8'))                          # write position to serial port
+# import serial
+# import io
+# ser = serial.serial_for_url('loop://', timeout=1)
+# sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+
+# sio.write(unicode("hello\n"))
+# sio.flush() # it is buffering. required to get the data out *now*
+# hello = sio.readline()
+# print(hello == unicode("hello\n"))
+# reachedPos = str(arduino.readline())
+                                            # create loop
+
+	                          # write position to serial port
    # reachedPos = str(arduino.readline())            # read serial port for arduino echo
    # print(reachedPos)                               # print arduino echo to console
 
