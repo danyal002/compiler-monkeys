@@ -16,10 +16,11 @@ def capture():
 
 def upload():
     fileToSend = "/home/pi/Desktop/images/snapshot.jpg"
-    url = "http://104.198.69.57:5000/upload"
+    url = "http://104.198.69.57/upload"
     files = [('DoorImage', (fileToSend, open(
         fileToSend, 'rb'), 'application/octet'))]
     r = requests.post(url, files=files)
+    print(str(r.content))
 
 def lock():
     arduino.write(b'L')
