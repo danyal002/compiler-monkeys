@@ -5,7 +5,7 @@ import picamera
 import os
 import requests
 
-
+arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
 def capture():
     if(os.path.exists('/home/pi/Desktop/images/snapshot.jpg')):
         os.remove('/home/pi/Desktop/images/snapshot.jpg')
@@ -22,17 +22,13 @@ def upload():
     r = requests.post(url, files=files)
 
 def lock():
-    arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
-    time.sleep(10)
-    sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
     arduino.write(b'L')
-    time.sleep(10)
 
 def unlock():
-    arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
-    time.sleep(10)
-    sio = io.TextIOWrapper(io.BufferedRWPair(arduino, arduino))
     arduino.write(b'U')
-    time.sleep(10)
 
 
+time.sleep(10)
+lock()
+time.sleep(10)
+unlock()
