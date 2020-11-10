@@ -1,3 +1,4 @@
+ 
 import serial
 import time
 import io
@@ -5,7 +6,9 @@ import picamera
 import os
 import requests
 
-arduino = serial.Serial('COM5', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
+arduino = serial.Serial('/dev/ttyUSB0', 9600, timeout=1) # Gotta change the com port when we connect the arduin to the pi
+time.sleep(7)
+
 def capture():
     if(os.path.exists('/home/pi/Desktop/images/snapshot.jpg')):
         os.remove('/home/pi/Desktop/images/snapshot.jpg')
@@ -20,7 +23,8 @@ def upload():
     files = [('DoorImage', (fileToSend, open(
         fileToSend, 'rb'), 'application/octet'))]
     r = requests.post(url, files=files)
-    print(str(r.content))
+    result = str(r.content, "utf-8")
+    return result
 
 def lock():
     arduino.write(b'L')
@@ -28,8 +32,13 @@ def lock():
 def unlock():
     arduino.write(b'U')
 
-
-time.sleep(10)
-lock()
-time.sleep(10)
-unlock()
+while(True):
+    time.sleep(2) #should be changed on how often we want to run the entire process.
+    capture()
+    result = upload()
+    print(result)
+    if(result == "False"):
+        unlock()
+        time.sleep(3)    #Time after which the door should automatically be locked.
+        lock()
+    break
