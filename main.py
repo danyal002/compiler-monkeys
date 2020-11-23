@@ -19,8 +19,8 @@ def capture():
 
 def upload():
     fileToSend = "/home/pi/Desktop/images/snapshot.jpg"
-    url = "http://104.198.69.57/upload"
-    files = [('DoorImage', (fileToSend, open(
+    url = "http://104.198.69.57:8080/api/identifyguest"
+    files = [('guest_photo', (fileToSend, open(
         fileToSend, 'rb'), 'application/octet'))]
     r = requests.post(url, files=files)
     result = str(r.content, "utf-8")
@@ -33,12 +33,14 @@ def unlock():
     arduino.write(b'U')
 
 while(True):
-    time.sleep(2) #should be changed on how often we want to run the entire process.
+    #time.sleep(2) #should be changed on how often we want to run the entire process.
     capture()
     result = upload()
     print(result)
-    if(result == "False"):
+    if(result == "True"):
         unlock()
         time.sleep(3)    #Time after which the door should automatically be locked.
         lock()
     break
+
+      
