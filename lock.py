@@ -14,4 +14,4 @@ def lock():
 def unlock():
     arduino.write(b'U')
 
-unlock();
+lock()
